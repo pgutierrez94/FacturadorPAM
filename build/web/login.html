@@ -1,72 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Meta, title, CSS, favicons, etc. -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>FACEPAM | </title>
+        <title>FACEPAM | </title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="./Resources/bootstrap/dist/css/bootstrap.min.css" type="text/css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="./Resources/font-awesome/css/font-awesome.min.css" type="text/css">
-    <!-- NProgress -->
-    <link rel="stylesheet" href="./Resources/nprogress/nprogress.css" type="text/css">
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="./Resources/animate.css/animate.min.css" type="text/css">
-    <!-- Custom Theme Style -->
-    <link rel="stylesheet" href="./Resources/build/css/custom.min.css" type="text/css">
-    <link rel="stylesheet" href="./Resources/build/css/custom.css" type="text/css"/>
-    <link rel="stylesheet" href="./Resources/bootstrap/dist/css/bootstrap-theme.css" type="text/css">
-  </head>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="./Resources/bootstrap/dist/css/bootstrap.min.css" type="text/css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="./Resources/font-awesome/css/font-awesome.min.css" type="text/css">
+        <!-- NProgress -->
+        <link rel="stylesheet" href="./Resources/nprogress/nprogress.css" type="text/css">
+        <!-- Animate.css -->
+        <link rel="stylesheet" href="./Resources/animate.css/animate.min.css" type="text/css">
+        <!-- Custom Theme Style -->
+        <link rel="stylesheet" href="./Resources/bootstrap/dist/css/bootstrap-theme.css" type="text/css">
+        <link rel="stylesheet" href="./Resources/build/css/custom.min.css" type="text/css"> 
+        <link rel="stylesheet" href="./Resources/css/login.css" type="text/css"/>
+    </head>
 
-  <body class="login">
-    <div>
-      <a class="hiddenanchor" id="signin"></a>
-      <div class="login_wrapper">
-        <div class="animate form login_form">
-          <section class="login_content">
-            <form>
-              <h1>FACEPAM</h1>
-              <div>
-                <input id="username" type="text" class="form-control" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input id="password" type="password" class="form-control" placeholder="Password" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" onClick="validaCredenciales()">Log in</a>
-                <a class="reset_pass" href="#">Lost your password?</a>
-              </div>
+    <body class="login">
+        <div>
+            <a class="hiddenanchor" id="signin"></a>
+            <div class="login_wrapper">
+                <div class="animate form login_form">
+                    <section class="login_content">
+                        <form>
+                            <h1>FACEPAM</h1>
 
-              <div class="clearfix"></div>
+                            <div class="alert alert-warning alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Credenciales Incorrectas</strong> Corrija los datos e intente de nuevo.
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Ingreso Bloqueado</strong> Ha superado los intentos de ingreso. Debe esperar.
+                            </div>
+                            <div class="alert alert-info alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Ingrese Credenciales</strong> Para acceder al sitio.
+                            </div>
 
-              <div class="separator"> 
-                <div class="clearfix"></div>
-                <br />
+                            <div>
+                                <input id="username" type="text" class="form-control" placeholder="Username" required="" />
+                            </div>
+                            <div>
+                                <input id="password" type="password" class="form-control" placeholder="Password" required="" />
+                            </div>
+                            <div>
+                                <img src="Resources/img/24.gif" alt="" style="width: 30px;" class="displayNone" id="spinner"/>                                
+                                <a class="btn btn-default submit" onClick="validaCredenciales()">Log in</a>
+                                <a class="reset_pass" href="#">Lost your password?</a>
+                            </div>
 
-                <div>
-                  <h1><i class="fa fa-cubes"></i> Factura Electónica PAM</h1>
-                  <p>©2019 All Rights Reserved. FACEPAM es una plataforma de pagos electrónicos. Privacy and Terms</p>
+                            <div class="clearfix"></div>
+
+                            <div class="separator"> 
+                                <div class="clearfix"></div>
+                                <br />
+
+                                <div>
+                                    <h1><i class="fa fa-cubes"></i> Factura Electónica PAM</h1>
+                                    <p>©2019 All Rights Reserved. FACEPAM es una plataforma de pagos electrónicos. Privacy and Terms</p>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
                 </div>
-              </div>
-            </form>
-          </section>
-        </div>
-      </div>
-    </div>    
-    <!-- jQuery -->
-    <script src="./Resources/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="./Resources/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="./Resources/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="./Resources/nprogress/nprogress.js"></script>
-    <!-- js FACEPAM -->
-    <script src="./Resources/js/login.js"></script>
-  </body>
+            </div>
+        </div>    
+        <!-- jQuery -->
+        <script src="./Resources/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="./Resources/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- FastClick -->
+        <script src="./Resources/fastclick/lib/fastclick.js"></script>
+        <!-- NProgress -->
+        <script src="./Resources/nprogress/nprogress.js"></script>
+        <!-- js FACEPAM -->
+        <script src="./Resources/js/login.js"></script>
+    </body>
 </html>
