@@ -5,8 +5,9 @@
  */
 package Servlets.mainServlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.BufferedReader;
+import java.io.IOException; 
+import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  *
  * @author desar
@@ -37,7 +41,14 @@ public class mainServer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            java.util.logging.Logger.getLogger(mainServer.class.getName()).log(Level.SEVERE, null, ex);
+            response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("ERROR!!!");
+        }
     }
 
     /**
@@ -51,7 +62,14 @@ public class mainServer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JSONException ex) {
+            java.util.logging.Logger.getLogger(mainServer.class.getName()).log(Level.SEVERE, null, ex);
+            response.setContentType("text/plain");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("ERROR!!!");
+        }
     }
 
     /**
@@ -63,7 +81,7 @@ public class mainServer extends HttpServlet {
     public String getServletInfo() {
         return "Servlet principal de comunicaciones FACEPAM.";
     }// </editor-fold>
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,22 +90,36 @@ public class mainServer extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws org.json.JSONException
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet mainServer</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet mainServer at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            throws ServletException, IOException, JSONException { 
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = request.getReader();
+        String metodo = "";
+        String str = null;
+        String respuesta = "";
+        boolean result;
+        while ((str = br.readLine()) != null) {
+            sb.append(str); 
+        }
+        JSONObject jObj = new JSONObject(sb.toString());
+        metodo = jObj.getString("method");
+        switch (metodo) {
+            case "login":
+                String user = jObj.getString("username");
+                String pass = jObj.getString("password");
+                System.out.println(user + ":" + pass);
+                respuesta = "{result:ok}";
+                JSONObject jResp = new JSONObject(respuesta);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(jResp.toString());
+                break;
+            default:
+                break;
         }
     }
-
 }
+
