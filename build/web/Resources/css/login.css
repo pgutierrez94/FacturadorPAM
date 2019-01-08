@@ -60,3 +60,8 @@ and open the template in the editor.
     margin: 30% 0!important;
     position: relative!important;
 }
+
+.spinner {
+    width: 30px; 
+    margin-left: 44%;
+}
