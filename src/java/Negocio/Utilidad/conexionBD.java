@@ -20,7 +20,7 @@ public class conexionBD {
     
     private Connection conn = null;
     //private static final String dbURL = "jdbc:sqlserver://DESKTOP-R9PC2V8:1433;DatabaseName=DirOES;integratedSecurity=true;";OES:SQLDirectori0!
-    private static final String dbURL = "jdbc:sqlserver://DESKTOP-R9PC2V8:1433;DatabaseName=DirOES;username=OES;password=pass1234;";
+    private static final String dbURL = "jdbc:sqlserver://DESKTOP-R9PC2V8:1433;DatabaseName=facturaElectronica;integratedSecurity=true;";
     
     public Connection getConnection() throws ClassNotFoundException {
         try {

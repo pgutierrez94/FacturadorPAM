@@ -6,18 +6,25 @@
 package Servlets.mainServlet;
 
 import java.io.BufferedReader;
-import java.io.IOException; 
+import java.io.IOException;
 import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.UUID;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import Estructuras.GestionUsuarios.usuario;
+import Negocio.GestionUsuarios.gestionUsuarios;
 
 /**
  *
@@ -28,7 +35,7 @@ public class mainServer extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(mainServer.class);
-
+    public usuario user = null;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -92,26 +99,60 @@ public class mainServer extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws org.json.JSONException
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, JSONException { 
+            throws ServletException, IOException, JSONException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = request.getReader();
         String metodo = "";
         String str = null;
         String respuesta = "";
-        boolean result;
         while ((str = br.readLine()) != null) {
-            sb.append(str); 
+            sb.append(str);
         }
         JSONObject jObj = new JSONObject(sb.toString());
         metodo = jObj.getString("method");
         switch (metodo) {
             case "login":
-                String user = jObj.getString("username");
-                String pass = jObj.getString("password");
-                System.out.println(user + ":" + pass);
-                respuesta = "{result:ok}";
+                user = new usuario();
+                gestionUsuarios gLogin = new gestionUsuarios();
+                String token = null;
+                this.user.setNickname(jObj.getString("username"));
+                this.user.setPass(jObj.getString("password"));
+                this.user.setActivo("false");
+                //Validamos LogIn
+                this.user = gLogin.validarCredenciales(this.user);              
+                if (this.user.getActivo().equals("true")) {
+                    //Validamos fecha de expiracion
+                    boolean valExpPass = false;
+                    try {
+                        if (this.user.getExpiracion() != null) {
+                            System.out.println(this.user.getExpiracion());
+                            Date today = new Date(Calendar.getInstance().getTime().getTime());
+                            if (this.user.getExpiracion().compareTo(today) < 0) {
+                                valExpPass = false;
+                            }
+                        } else {
+                            valExpPass = true;
+                        }
+                    } catch (ClassCastException cc) {
+                        cc.getMessage();
+                    }
+                    HttpSession session = request.getSession(true);
+                    session.setAttribute("user", this.user.getNickname());
+                    token = UUID.randomUUID().toString();
+                    session.setAttribute("token", token);
+                    respuesta = "{user:" + this.user.getNickname()
+                            + ",logged:" + String.valueOf(this.user.isLoggedIn())
+                            + ",rol:" + this.user.getRol()
+                            + ",activo:" + this.user.getActivo()
+                            + ",valExpPass:" + String.valueOf(valExpPass)
+                            + ",result:" + "ok"
+                            + ",token:" + token + "}";
+                } else {
+                    respuesta = "{result:" + "ERROR"
+                            + ",error: 'Usuario no Existe'}";
+                }
+                System.out.println(respuesta);
                 JSONObject jResp = new JSONObject(respuesta);
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
@@ -122,4 +163,3 @@ public class mainServer extends HttpServlet {
         }
     }
 }
-
