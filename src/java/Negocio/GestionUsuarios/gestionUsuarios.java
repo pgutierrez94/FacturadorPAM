@@ -33,7 +33,6 @@ public class gestionUsuarios {
             con = dataBase.getConnection();
             String sql;
             sql = queries.getConsulta("consultaLogin");
-            System.out.println(sql);
             stmt = con.prepareStatement(sql);
             stmt.setString(1, user.getNickname());
             stmt.setString(2, user.getPass());
