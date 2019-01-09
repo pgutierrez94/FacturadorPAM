@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -25,6 +25,7 @@ public class conexionBD {
     public Connection getConnection() throws ClassNotFoundException {
         try {
             conn = DriverManager.getConnection(dbURL);
+            System.out.println("Conexion exitosa");
         } catch (SQLException ex) {
             System.out.println("Error de BD: " + ex.toString());
         }
