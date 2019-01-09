@@ -26,6 +26,15 @@ public class usuario {
     private int id_Usuario;
     private String activo;
     private String pass;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
     private boolean loggedIn;
     private Date expiracion;
 

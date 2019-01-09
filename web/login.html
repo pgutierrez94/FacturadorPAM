@@ -25,6 +25,7 @@
 
     <body class="login">
         <div>
+            <a class="hiddenanchor" id="signup"></a>
             <a class="hiddenanchor" id="signin"></a>
             <div class="login_wrapper">
                 <div class="animate form login_form">
@@ -54,16 +55,73 @@
                             <div>
                                 <input id="password" type="password" class="form-control" placeholder="Password" required="" />
                             </div>
-                            
+
                             <div>
                                 <img src="Resources/img/24.gif" alt="" class="spinner displayNone"/>                                
-                                <a class="btn btn-default submit" onClick="validaCredenciales()">Log in</a>
-                                <a class="reset_pass" href="#">Lost your password?</a>
+                                <a class="btn btn-default submit" onClick="validaCredenciales()">Log in</a> 
                             </div>
 
                             <div class="clearfix"></div>
 
                             <div class="separator"> 
+                                <p class="change_link">Perdiste tu contraseña?
+                                    <a href="#signup" class="to_register"> Recuperala </a>
+                                </p>
+                                <div class="clearfix"></div>
+                                <br />
+
+                                <div>
+                                    <h1><i class="fa fa-cubes"></i> Factura Electónica PAM</h1>
+                                    <p>©2019 All Rights Reserved. FACEPAM es una plataforma de pagos electrónicos. Privacy and Terms</p>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+
+                <div id="register" class="animate form registration_form">
+                    <section class="login_content">
+                        <form>
+                            <h1>Recupera Contraseña</h1>
+
+                            <div class="alert alert-success alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" aria-label="Close" onClick="cierraMensaje('alert-success');"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Se ha enviado un correo con la contraseña generada.</strong>
+                            </div>
+                            <div class="alert alert-warning alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" aria-label="Close" onClick="cierraMensaje('alert-warning');"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Usuario no Existe</strong> Corrija los datos e intente de nuevo.
+                            </div>
+                            <div class="alert alert-info alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" aria-label="Close" onClick="cierraMensaje('alert-info');"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Ingrese Usuario y Correo</strong> Para recuperar contraseña.
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade in displayNone" role="alert">
+                                <button type="button" class="close" aria-label="Close" onClick="cierraMensaje('alert-danger');"><span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Ha ocurrido un error.</strong> Intente m[as tarde.
+                            </div>
+                            
+                            <div>
+                                <input type="text" id="usernameP" class="form-control" placeholder="Username" required="" />
+                            </div>
+                            <div>
+                                <input type="email" id="correoP" class="form-control" placeholder="Email" required="" />
+                            </div>
+                            <div>
+                                <a class="btn btn-default submit" onClick="recuperaPass();">Solicitar</a>
+                            </div>
+
+                            <div class="clearfix"></div>
+
+                            <div class="separator">
+                                <p class="change_link">Recuerdas la contraseña?
+                                    <a href="#signin" class="to_register"> Ingresa </a>
+                                </p>
+
                                 <div class="clearfix"></div>
                                 <br />
 
@@ -76,7 +134,7 @@
                     </section>
                 </div>
             </div>
-        </div>    
+        </div>   
         <!-- jQuery -->
         <script src="./Resources/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->

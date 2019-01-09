@@ -7,11 +7,19 @@
 
 console.log("Cargando script index...");
 
-$(document).ready(function(){
+//Validacion de seguridad
+$(document).ready(function () {
     console.log("ready!!");
-    if(localStorage.getItem("Usuario").length<=4){
-        window.location.href = 'login.html';
+    if (localStorage.getItem("Usuario") !== null && sessionStorage.getItem("TokenFACEPAM") !== null) {
+        if (localStorage.getItem("Usuario").length <= 4 && sessionStorage.getItem("TokenFACEPAM").length < 36) {
+            window.location.href = 'login.html';
+            console.log("Go to login...");
+        } else {
+            window.location.href = 'Dashboard.html';
+            console.log("Go to Dash...");
+        }
     }else{
-        console.log("Go to Dash...");
+        window.location.href = 'login.html';
+        console.log("Go to login...");
     }
 });
