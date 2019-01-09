@@ -36,6 +36,7 @@ public class mainServer extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(mainServer.class);
     public usuario user = null;
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -120,16 +121,20 @@ public class mainServer extends HttpServlet {
                 this.user.setPass(jObj.getString("password"));
                 this.user.setActivo("false");
                 //Validamos LogIn
-                this.user = gLogin.validarCredenciales(this.user);              
+                this.user = gLogin.validarCredenciales(this.user);
                 if (this.user.getActivo().equals("true")) {
                     //Validamos fecha de expiracion
                     boolean valExpPass = false;
                     try {
                         if (this.user.getExpiracion() != null) {
-                            System.out.println(this.user.getExpiracion());
                             Date today = new Date(Calendar.getInstance().getTime().getTime());
-                            if (this.user.getExpiracion().compareTo(today) < 0) {
+                            System.out.println(today);
+                            System.out.println(this.user.getExpiracion());
+                            //if (this.user.getExpiracion().compareTo(today) < 0) {
+                            if (today.compareTo(this.user.getExpiracion()) < 0) {
                                 valExpPass = false;
+                            } else {
+                                valExpPass = true;
                             }
                         } else {
                             valExpPass = true;
@@ -140,6 +145,7 @@ public class mainServer extends HttpServlet {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", this.user.getNickname());
                     token = UUID.randomUUID().toString();
+                    this.user.setToken(token);
                     session.setAttribute("token", token);
                     respuesta = "{user:" + this.user.getNickname()
                             + ",logged:" + String.valueOf(this.user.isLoggedIn())
@@ -158,6 +164,24 @@ public class mainServer extends HttpServlet {
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(jResp.toString());
                 break;
+
+            case "recuperaPass":
+                String userP = jObj.getString("username");
+                String correoP = jObj.getString("correo");
+                gestionUsuarios gestionPass = new gestionUsuarios();
+                boolean result = gestionPass.forgotPass(userP, correoP);
+                if (result) {
+                    respuesta = "{result:" + "ok}";
+                } else {
+                    respuesta = "{result:" + "ERROR}";
+                }
+                System.out.println(respuesta);
+                JSONObject jResp1 = new JSONObject(respuesta);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(jResp1.toString());
+                break;
+
             default:
                 break;
         }
